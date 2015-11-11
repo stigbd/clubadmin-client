@@ -7,6 +7,26 @@ app.ClubView = Backbone.View.extend({
     initialize: function( initialClub ) {
         this.collection = new app.Club( initialClub);
         this.render();
+        this.listenTo( this.collection, 'add', this.renderMember );
+    },
+
+    events:{
+        'click #add':'addMember'
+    },
+
+    addMember: function( e ) {
+        e.preventDefault();
+
+        var formData = {};
+
+        $( '#addMember div' ).children( 'input' ).each( function( i, el ) {
+            if( $( el ).val() != '' )
+            {
+                formData[ el.id ] = $( el ).val();
+            }
+        });
+
+        this.collection.add( new app.Member( formData ) );
     },
 
     // render library by rendering each member in its collection

@@ -4,10 +4,13 @@ $(function() {
 app.ClubView = Backbone.View.extend({
     el: '#club',
 
-    initialize: function( initialClub ) {
-        this.collection = new app.Club( initialClub);
+    initialize: function() {
+        this.collection = new app.Club();
+        this.collection.fetch({reset: true});
         this.render();
+
         this.listenTo( this.collection, 'add', this.renderMember );
+        this.listenTo( this.collection, 'reset', this.render );
     },
 
     events:{
